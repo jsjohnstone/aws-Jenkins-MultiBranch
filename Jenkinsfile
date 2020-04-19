@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { docker { image 'php' } }
     stages {
         stage('Build') {
             steps {
@@ -8,6 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
+                sh 'php --version'
                 sh 'tidy -q -e *.html'
             }
         }
