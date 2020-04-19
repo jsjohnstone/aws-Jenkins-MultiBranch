@@ -26,9 +26,10 @@ pipeline {
                 branch 'production'
             }
             steps {
-                sh 'echo "Delivered to development!"'
-                input message: 'Happy?'
-                sh 'echo "Something else happened!"'
+                withAWS(region:'us-west-2',credentials:'aws-static') {
+                    sh 'echo "Uploading content with AWS creds"'
+                    s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'index.html', bucket:'playground-jenkins')
+                }
             }
         }
     }
